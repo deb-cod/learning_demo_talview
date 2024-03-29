@@ -1,0 +1,468 @@
+---
+openapi: 3.0.0
+info:
+  title: Automobile Owner Details API
+  description: "API that connects with the automobile own details. This contains the two set of users named as all with usual capability, i.e Read Only and pro capability with creating, updating and deleting of user and the data containing it. To know more, visit [Github](https://github.com/deb-cod)"
+  contact:
+    name: Debesh Pramanick
+    url: https://portfolio-vijwzeakvek4doiqzoojeb.streamlit.app
+    email: debesh.pramanick@talview.com
+  version: 1.0.1
+servers:
+- url: http://localhost:1234
+paths:
+  /api/createuser:
+    post:
+      summary: Create a new user
+      description: Endpoint to create a new user
+      parameters:
+      - name: passcode
+        in: query
+        description: Overall Auth
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_name
+        in: query
+        description: Secret name
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_number
+        in: query
+        description: Secret number
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: "Either s_name or s_number or both is empty. \nUser already exists.\nOther Error that have to be looked into database.\n"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: |
+            For not using auth_overall
+            Not in 'pro_user' database
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+  /api/getuser/{id}:
+    get:
+      summary: Get a user by ID
+      description: Endpoint to retrieve a user by their ID
+      parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: passcode
+        in: query
+        description: Overall Auth
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_name
+        in: query
+        description: Secret name
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_number
+        in: query
+        description: Secret number
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: |
+            Either s_name or s_number or both is empty.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: |
+            For not using auth_overall
+            Not in 'usual_user' database
+            User ID not found.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+  /api/deleteuser/{id}:
+    delete:
+      summary: Delete a user by ID
+      description: Endpoint to delete a user by their ID
+      parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: passcode
+        in: query
+        description: Overall Auth
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_name
+        in: query
+        description: Secret name
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_number
+        in: query
+        description: Secret number
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: |
+            Either s_name or s_number or both is empty.
+            User ID not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: |
+            For not using auth_overall
+            Not in 'pro_user' database
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+  /api/alluser:
+    get:
+      summary: Get all users
+      description: Endpoint to retrieve all users
+      parameters:
+      - name: passcode
+        in: query
+        description: Overall Auth
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_name
+        in: query
+        description: Secret name
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_number
+        in: query
+        description: Secret number
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        "400":
+          description: |
+            Either s_name or s_number or both is empty.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: "For not using auth_overall\nNot in 'usual_user' database \n"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+  /api/updateuserdata/{id}:
+    put:
+      summary: Update user data by ID
+      description: Endpoint to update user data by their ID
+      parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: passcode
+        in: query
+        description: Overall Auth
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_name
+        in: query
+        description: Secret name
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_number
+        in: query
+        description: Secret number
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: |
+            Either s_name or s_number or both is empty.
+            User ID not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: "For not using auth_overall\nNot in 'pro_user' database \n"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+  /api/page:
+    get:
+      summary: Paginate users
+      description: Endpoint to paginate through users
+      parameters:
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: pageSize
+        in: query
+        description: Number of users per page
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: passcode
+        in: query
+        description: Overall Auth
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_name
+        in: query
+        description: Secret name
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: s_number
+        in: query
+        description: Secret number
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        "400":
+          description: "Either s_name or s_number or both is empty.  \n"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+        "404":
+          description: |
+            For not using auth_overall.
+            Not in 'usual_user' database.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorMessage'
+components:
+  schemas:
+    ErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+    UserInput:
+      required:
+      - car_make
+      - car_model
+      - car_model_year
+      - car_vin_number
+      - email
+      - first_name
+      - last_name
+      - working_sector
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          uniqueItems: true
+          type: string
+        working_sector:
+          type: string
+        car_make:
+          type: string
+        car_model:
+          type: string
+        car_model_year:
+          type: integer
+        car_vin_number:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        working_sector:
+          type: string
+        car_make:
+          type: string
+        car_model:
+          type: string
+        car_model_year:
+          type: integer
+        car_vin_number:
+          type: string
+        created_at:
+          type: string
+          description: created timestamp with timezone
+          format: date-time
+        updated_at:
+          type: string
+          description: updated timestamp with timezone
+          format: date-time
+    UserUpdate:
+      type: object
+      properties:
+        column_name:
+          type: string
+        changed_value:
+          type: string
