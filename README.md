@@ -6,10 +6,15 @@ npm install nodemon knex pg express --save-dev
 
 npm install jest --save-dev
 
-npm jest init@config
 
 // TEST
 npm install --save-dev @babel/preset-env @babel/plugin-transform-modules-commonjs
+
+// TO RUN TEST
+// go to express_db_test
+
+cd express_db_test
+npx jest --coverage
 
 
 
