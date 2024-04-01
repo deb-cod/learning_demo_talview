@@ -47,8 +47,18 @@ node upload_data.js
 //////////// Run the project //////////////////////
 
 git clone https://github.com/deb-cod/learning_demo_talview.git
+
+
 cd learning_demo_talview/express_db_test
+
+
 npm install
+
+
 npm run dev
+
+
     OR
+
+    
 npm start    
