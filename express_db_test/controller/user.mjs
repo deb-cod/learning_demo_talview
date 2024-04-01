@@ -4,10 +4,13 @@ import {PersonService} from '../service/userService.mjs';
 
 const userService = new PersonService();
 
+import { create_user_validate, id_validate } from '../validate/validate.mjs';
+
 export class PersonController{
     async createUser(req,res, next){
         try {
-            const data = await userService.createUser(req.body);
+            const validated_data = await create_user_validate.validateAsync(req.body);
+            const data = await userService.createUser(validated_data);
             //console.log(Object.keys(data));
             // const personJson = JSON.stringify(data);
             // console.log(personJson);
@@ -22,6 +25,7 @@ export class PersonController{
 
     async getUser(req,res){
         try {
+            
             const data = await userService.getFromUser(req.params.id);
             res.status(200).json(data);
         } catch (error) {
@@ -32,6 +36,7 @@ export class PersonController{
 
     async deleteFromUser(req,res){
         try {
+            await id_validate.validateAsync({id: req.params.id});
             const data = await userService.deleteFromUser((req.params.id));
             res.status(200).json(data);
         } catch (error) {
@@ -52,7 +57,7 @@ export class PersonController{
 
     async updateData(req,res){
         try {
-            //console.log(req.params.id, req.body)
+            await id_validate.validateAsync({id: req.params.id});
             const data = await userService.updateUserData(req.params.id, req.body);
 
             res.status(200).json(data);
