@@ -43,3 +43,7 @@ npx knex migrate:make debesh_github --knexfile db/knexfile.js
 
 
 node upload_data.js
+
+//////////// Run the project //////////////////////
+
+nppm start
