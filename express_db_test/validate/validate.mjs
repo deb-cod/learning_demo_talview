@@ -14,3 +14,4 @@ export const create_user_validate = Joi.object({
 export const id_validate = Joi.object({
     id: Joi.number().required()
 });
+

@@ -19,6 +19,12 @@ export class Middleware {
 
 
         auth_usual = async (req, res, next) => {
+
+            // const { error, value } = s_validate.validateAsync(req.query);
+            // if (error) {
+            //     return res.status(400).json({ message: error.details[0].message });
+            //   }
+
             if (req.query.s_number == undefined || req.query.s_name == undefined) {
                 return res.status(400).json({ message: 'Caution: Query parameters s_number and s_name are required.' });
             }
