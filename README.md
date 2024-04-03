@@ -62,3 +62,8 @@ npm run dev
 
     
 npm start    
+
+
+### Comparison Report of 4 validation frameworks is given in the link below
+
+https://talviewinc-my.sharepoint.com/:w:/g/personal/debesh_pramanick_talview_com/ES1MLdRgJLdAt23VHsS7CiYB8Fm2tOvfX_NWlir1F9TFPQ?e=w3AC6N
