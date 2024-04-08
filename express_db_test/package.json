@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.jsgit "
   },
   "author": "Debesh Pramanick",
   "license": "ISC",
@@ -18,7 +19,15 @@
     "knex": "^3.1.0",
     "nodemon": "^3.1.0",
     "pg": "^8.11.3",
-    "supertest": "^6.3.4"
+    "supertest": "^6.3.4",
+    "swagger-ui": "^5.13.0",
+    "swagger-ui-dist": "^5.13.0",
+    "swagger-ui-express": "^5.0.0",
+    "swagger-ui-react": "^5.13.0",
+    "validator": "^13.11.0",
+    "yamljs": "^0.3.0",
+    "yup": "^1.4.0",
+    "zod": "^3.22.4"
   },
   "jest": {
     "transform": {
