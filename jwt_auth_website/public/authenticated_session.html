@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticated Session</title>
+</head>
+<body>
+
+
+    <script>
+        // Check if token exists, if not redirect to login page
+        const token = localStorage.getItem('token');
+        const response = await fetch('/authenticated_session', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+            });
+
+        console.log(token);
+
+        if (!token) {
+            window.location.href = '/login';
+        }
+
+        
+    </script>
+
+
+
+    <h2>Authenticated Session</h2>
+    <p>Welcome to the authenticated session!</p>
+
+    
+</body>
+</html>
