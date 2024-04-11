@@ -1,11 +1,22 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const jwt = require('jsonwebtoken');
-const path = require('path');
+
+import express from 'express';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import jwt from 'jsonwebtoken';
+import path from 'path';
+
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+
+
 
 const app = express();
-const secretKey = 'your_secret_key';
+const secretKey = 'I am Ausm';
 
 // Middleware
 app.use(bodyParser.json());
@@ -35,12 +46,13 @@ app.post('/login', (req, res) => {
   }
 
   // Generate JWT token
-  const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1h' });
-  console.log(typeof(token));
+  const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1m' });
+  // console.log(typeof(token));
 
-  const a = token + "TEST"
+  // const a = token //+ "TEST"
 
-  res.json({ a });
+  // res.json({ "token": token+"_TEST" });
+  res.json({ "token": token });
 });
 
 // Middleware to verify JWT token
@@ -59,6 +71,9 @@ const verifyToken = (req, res, next) => {
     }
 
     req.userId = decoded.userId;
+    // console.log("comparing: ",req.userId = decoded.userId);
+    // console.log("This is req.userID ",req);
+    // console.log("decoded: ",decoded)
     next();
   });
 }
@@ -69,8 +84,10 @@ catch(error){
 
 // Authenticated session endpoint
 app.get('/authenticated_session', verifyToken, (req, res) => {
-  res.json({ message: 'Authenticated session' });
+  res.sendFile(path.join(__dirname, 'public', 'authenticated_session.html'));
+  // res.json({ message: 'Authenticated session' });
 });
+
 
 const PORT = 3000;
 app.listen(PORT, () => {

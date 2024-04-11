@@ -37,7 +37,7 @@
                 const data = await response.json();
                 console.log("Data in index.js: ",data)
                 if (response.ok) {
-                    localStorage.setItem('token', data.token);
+                    // localStorage.setItem('token', data.token);
                     document.cookie = `token=${data.token}; path=/`;
                     
                     console.log("Fron index.html ",data.token);

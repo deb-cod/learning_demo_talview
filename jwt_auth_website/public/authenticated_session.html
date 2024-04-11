@@ -11,8 +11,9 @@
     <script>
         // Check if token exists, if not redirect to login page
         const token = localStorage.getItem('token');
-        const response = await fetch('/authenticated_session', {
-                method: 'GET',
+        const check = async()=>{
+            const response = await fetch('/authenticated_session_check', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': token
@@ -25,7 +26,14 @@
             window.location.href = '/login';
         }
 
+        return token;
+
+    };
+     
         
+
+    const a = check();
+    console.log(a);
     </script>
 
 
