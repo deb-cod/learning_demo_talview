@@ -1,8 +1,6 @@
 import {GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLSchema, GraphQLString} from "graphql";
 // import dummy_users from '../dummy_data/MOCK_DATA.json' with { type: "json" };
-
 // console.log(dummy_users.length)
-
 // const UserType = new GraphQLObjectType({
 //     name : 'User',
 //     fields: ()=>({
@@ -57,9 +55,6 @@ import {GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLSchema, GraphQLString
 //         }
 //     }
 // });
-
-
-
 import {db} from '../db/db.mjs';
 // const userDB = ()=> db('user_data').orderBy('id');
 
@@ -88,6 +83,17 @@ const RootQuery = new GraphQLObjectType({
                 // console.log(this.args);
                 return  db('user_data').orderBy('id');
             }
+        },
+        user_by_id:{
+            type: new GraphQLList(UserType),
+            args:{
+                id:{type: GraphQLInt}
+            },
+            resolve(parent, args){
+                return db('user_data').where({'id': args.id})
+                    .returning('*');
+            }
+
         }
     }
 });
@@ -108,7 +114,7 @@ const Mutation = new GraphQLObjectType({
                 car_vin_number: {type: GraphQLString}
             },
             resolve(parent , args){
-                    const data = db('user_data').insert({
+                return db('user_data').insert({
                     first_name: args.first_name,
                     last_name: args.last_name,
                     email: args.email,
@@ -118,9 +124,39 @@ const Mutation = new GraphQLObjectType({
                     car_model_year: args.car_model_year,
                     car_vin_number: args.car_vin_number
                 }).returning('*');
-                return data;
+            }
+        },
+
+        update_user: {
+            type: UserType,
+            args:{
+                id: {type: GraphQLInt},
+                column_name: {type: GraphQLString},
+                updated_data: {type: GraphQLString}
+            },
+            resolve(parent, args){
+
+                return db('user_data').where({id: args.id}).update({
+                    [args.column_name]: args.updated_data,
+                    updated_at: db.fn.now()
+                })
+                    .returning('*');
+            }
+        },
+
+        delete_user: {
+            type: UserType,
+            args:{
+                id: {type: GraphQLInt}
+            },
+            resolve(parent, args){
+
+                return db('user_data').where({id:args.id}).del()
+                    .returning("*");
             }
         }
+
+
     }
 });
 
